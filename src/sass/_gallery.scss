@@ -1,0 +1,13 @@
+.search-form {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  height: 50px;
+  background-color: rgb(82, 60, 250);
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+input {
+  min-width: 300px;
+}
