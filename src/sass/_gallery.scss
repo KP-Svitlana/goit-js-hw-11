@@ -16,7 +16,7 @@ input {
 .gallery {
   display: flex;
   flex-wrap: wrap;
-  max-width: 1140px;
+  max-width: 1400px;
   gap: 10px;
   justify-content: center;
   padding: 0;
@@ -28,7 +28,7 @@ input {
 .photo-card-link {
   text-decoration: none;
   display: flex;
-  flex-basis: calc((100% - 20px) / 3);
+  flex-basis: calc((100% - 30px) / 4);
   color: rgb(56, 48, 48);
 }
 
@@ -65,4 +65,25 @@ input {
   display: flex;
   flex-direction: column;
   text-align: center;
+}
+
+.load-more {
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  color: aliceblue;
+  background-color: rgb(82, 60, 250);
+  border-color: rgb(82, 60, 250);
+  border-radius: 3px;
+  width: 150px;
+  display: block;
+  cursor: pointer;
+}
+
+.load-more:hover {
+  transform: scale(1.03);
+}
+
+.is-hidden {
+  display: none;
 }

@@ -32,3 +32,7 @@ export function createMarkup(array) {
     )
     .join('');
 }
+
+export function clearMarkUp(element) {
+  element.innerHTML = '';
+}
