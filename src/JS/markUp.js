@@ -33,6 +33,6 @@ export function createMarkup(array) {
     .join('');
 }
 
-export function clearMarkUp(element) {
-  element.innerHTML = '';
+export function clearMarkUp(el) {
+  el.innerHTML = '';
 }
