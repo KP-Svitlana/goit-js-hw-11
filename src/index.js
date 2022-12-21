@@ -11,38 +11,50 @@ let page = 1;
 
 button.classList.add('is-hidden');
 
-form.addEventListener('submit', onFormSabmit);
+form.addEventListener('submit', onFormSubmit);
 button.addEventListener('click', onButtonClick);
 
-function onFormSabmit(e) {
+async function onFormSubmit(e) {
   e.preventDefault();
-  const data = e.currentTarget.searchQuery.value;
+  const data = e.currentTarget.searchQuery.value.trim();
   localStorage.setItem('data_value', data);
   reset();
 
-  getPhotos(data, page).then(({ hits, totalHits }) => {
-    if (hits.length === 0) {
-      reset();
-      Notify.failure(
-        'Sorry, there are no images matching your search query. Please try again.'
-      );
-    } else if (data === '') {
-      reset();
-      Notify.failure('Please write something.');
-    } else {
-      Notify.success(`Hooray! We found ${totalHits} images.`);
-      gallery.insertAdjacentHTML('beforeend', createMarkup(hits));
-      getSimpleLightBox();
-      page += 1;
-      button.classList.remove('is-hidden');
+  if (data === '') {
+    reset();
+    Notify.failure('Please write something.');
+    return;
+  } else {
+    try {
+      const response = await getPhotos(data, page);
+      const hits = response.data.hits;
+      const totalHits = response.data.totalHits;
+
+      if (hits.length === 0) {
+        reset();
+        Notify.failure(
+          'Sorry, there are no images matching your search query. Please try again.'
+        );
+      } else {
+        Notify.success(`Hooray! We found ${totalHits} images.`);
+        gallery.insertAdjacentHTML('beforeend', createMarkup(hits));
+        getSimpleLightBox();
+        page += 1;
+        button.classList.remove('is-hidden');
+      }
+    } catch (error) {
+      Notify.failure('Sory, something going wrong');
     }
-  });
+  }
 }
 
-function onButtonClick() {
+async function onButtonClick() {
   const data = localStorage.getItem('data_value');
+  try {
+    const response = await getPhotos(data, page);
+    const hits = response.data.hits;
+    const totalHits = response.data.totalHits;
 
-  getPhotos(data, page).then(({ hits, totalHits }) => {
     gallery.insertAdjacentHTML('beforeend', createMarkup(hits));
     page += 1;
     getSimpleLightBox();
@@ -53,7 +65,9 @@ function onButtonClick() {
       );
       button.classList.add('is-hidden');
     }
-  });
+  } catch (error) {
+    Notify.failure('Sory, something going wrong');
+  }
 }
 
 function reset() {
